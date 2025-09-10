@@ -1,0 +1,15 @@
+{
+  "name": "sistama-de-inventario-generico",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}
