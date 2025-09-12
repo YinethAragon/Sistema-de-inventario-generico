@@ -27,7 +27,7 @@ En este documento te comparto una revisión sencilla y práctica sobre cómo apl
 - Aquí sí se cumple el SRP: la clase solo representa un movimiento y su detalle.
 
 *¿Qué podrías mejorar?*
-- No es necesario hacer cambios. Si buscas mayor flexibilidad, podrías delegar la generación de detalles a un formateador externo.
+- No es necesario hacer cambios.
 
 ---
 
