@@ -17,3 +17,17 @@ En este documento te comparto una revisión sencilla y práctica sobre cómo apl
 - Mantener la clase Inventario enfocada solo en la gestión de productos y movimientos.
 
 ---
+## 2. Movimiento
+
+*¿Qué hace actualmente?*
+- Representa un movimiento de inventario.
+- Método principal: detalleMovimiento.
+
+*¿Cómo aplica el SRP?*
+- Aquí sí se cumple el SRP: la clase solo representa un movimiento y su detalle.
+
+*¿Qué podrías mejorar?*
+- No es necesario hacer cambios. Si buscas mayor flexibilidad, podrías delegar la generación de detalles a un formateador externo.
+
+---
+
