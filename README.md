@@ -67,3 +67,12 @@
 - Implementar formateadores de detalle mediante interfaces.
 - Permitir agregar nuevos formatos sin modificar la clase Movimiento.
 
+### 3. Producto
+
+*¿Cumple con OCP?*
+- No cumple completamente, ya que la presentación está mezclada con la lógica de negocio.
+- Cambios en la forma de mostrar información requieren modificar la clase Producto.
+
+*¿Cómo mejorar?*
+- Extraer la presentación a una interfaz (IProductoPresenter) y usar composición.
+- Permitir nuevas formas de presentación sin modificar Producto.
