@@ -1,8 +1,6 @@
-En este documento te comparto una revisión sencilla y práctica sobre cómo aplicar el Principio de Responsabilidad Única (SRP) en las clases de la carpeta `src/models`. La idea es ayudarte a identificar oportunidades para que el código sea más claro, fácil de mantener y escalar. Aquí encontrarás observaciones y sugerencias pensadas para que el sistema evolucione de forma ordenada y eficiente.
+## el Principio de Responsabilidad Única (SRP) 
 
----
-
-## 1. Inventario
+### 1. Inventario
 
 **¿Qué hace actualmente?**
 - Gestiona productos y movimientos.
@@ -17,7 +15,7 @@ En este documento te comparto una revisión sencilla y práctica sobre cómo apl
 - Mantener la clase Inventario enfocada solo en la gestión de productos y movimientos.
 
 ---
-## 2. Movimiento
+### 2. Movimiento
 
 *¿Qué hace actualmente?*
 - Representa un movimiento de inventario.
@@ -31,7 +29,7 @@ En este documento te comparto una revisión sencilla y práctica sobre cómo apl
 
 ---
 
-## 3. Producto
+### 3. Producto
 
 *¿Qué hace actualmente?*
 - Representa un producto genérico.
@@ -44,3 +42,18 @@ En este documento te comparto una revisión sencilla y práctica sobre cómo apl
 *¿Qué podrías mejorar?*
 - Extraer el método mostrarInfo a un formateador o servicio de presentación.
 - Mantener la clase Producto solo para la gestión de datos y lógica de stock.
+---
+
+## Evaluación del Principio Open/Close (OCP)
+
+### 1. Inventario
+
+**¿Cumple con OCP?**
+- Actualmente no está completamente abierta a extensión ni cerrada a modificación, ya que la lógica de reportes y gestión están acopladas.
+- Cambios en la generación de reportes requieren modificar la clase Inventario.
+
+**¿Cómo mejorar?**
+- Definir interfaces para servicios de reporte (`IReporteStock`, `IReporteMovimientos`).
+- Usar composición para delegar la generación de reportes a clases externas.
+- Permitir la extensión agregando nuevos servicios de reporte sin modificar Inventario.
+
