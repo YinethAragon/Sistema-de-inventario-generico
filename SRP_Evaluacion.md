@@ -31,3 +31,16 @@ En este documento te comparto una revisión sencilla y práctica sobre cómo apl
 
 ---
 
+## 3. Producto
+
+*¿Qué hace actualmente?*
+- Representa un producto genérico.
+- Métodos principales: aumentarStock, disminuirStock, mostrarInfo.
+
+*¿Cómo aplica el SRP?*
+- Mezcla la lógica de negocio (gestión de stock) con la presentación (mostrarInfo).
+- Lo ideal sería separar la presentación en otra clase o método externo.
+
+*¿Qué podrías mejorar?*
+- Extraer el método mostrarInfo a un formateador o servicio de presentación.
+- Mantener la clase Producto solo para la gestión de datos y lógica de stock.
