@@ -57,3 +57,13 @@
 - Usar composición para delegar la generación de reportes a clases externas.
 - Permitir la extensión agregando nuevos servicios de reporte sin modificar Inventario.
 
+### 2. Movimiento
+
+*¿Cumple con OCP?*
+- La clase está cerrada a modificación y cumple con OCP si el detalle se delega a un formateador externo.
+- Si se requiere cambiar el formato del detalle, sería mejor usar una interfaz (IDetalleMovimientoFormatter) y polimorfismo.
+
+*¿Cómo mejorar?*
+- Implementar formateadores de detalle mediante interfaces.
+- Permitir agregar nuevos formatos sin modificar la clase Movimiento.
+
