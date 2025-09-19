@@ -8,8 +8,6 @@
 
 **¿Cómo aplica el SRP?**
 - Actualmente mezcla la gestión de productos y movimientos con la generación de reportes.
-- Sería ideal que la generación de reportes estuviera en clases especializadas.
-
 **¿Qué podría mejorar?**
 - Extraer la lógica de reportes a servicios independientes, por ejemplo: `ReporteStockService` y `ReporteMovimientosService`.
 - Mantener la clase Inventario enfocada solo en la gestión de productos y movimientos.
