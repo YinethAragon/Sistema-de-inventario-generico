@@ -75,39 +75,55 @@
 - Extraer la presentación a una interfaz (IProductoPresenter) y usar composición.
 - Permitir nuevas formas de presentación sin modificar Producto.
 
-## Informe SOLID (L, I y D) — Proyecto: Sistema de Inventario Genérico
-## 2.Inventario de Clases/Interfaces Analizadas
-
-Clase 1: src/models/Producto.ts — Representa un producto genérico con operaciones de stock
-Clase 2: src/models/Inventario.ts — Gestiona la colección de productos y movimientos
-Clase 3: src/models/Movimineto.ts — Representa un movimiento individual del inventario
-Tipos: src/types/comunes.ts — Definiciones de tipos para el dominio
-
- ## 3.Análisis por Clase/Interfaz
-*3.1 src/models/Producto.ts*
-Rol: Gestión de datos y operaciones básicas de un producto en el inventario.
-L (Liskov Substitution)
-
-Diagnóstico: Cumple parcialmente
-Justificación: La clase usa genéricos (Producto<T extends ProductoGenerico>) lo que permite sustitución, pero no hay jerarquía de herencia real que probar. Sin embargo, cualquier tipo que extienda ProductoGenerico puede sustituir al genérico base sin romper funcionalidad.
-Refactor propuesto: No necesario para LSP, pero se podría crear una jerarquía con ProductoBase abstracta.
-
-I (Interface Segregation)
-
-Diagnóstico: No cumple completamente
-Justificación: La clase mezcla operaciones de stock (aumentarStock, disminuirStock) con presentación (mostrarInfo). Si una clase solo necesita operaciones de stock, debe implementar también la presentación.
-Refactor propuesto: Separar en interfaces IStockable e IDisplayable.
-
-D (Dependency Inversion)
-
-Diagnóstico: Cumple
-Justificación: Depende de la abstracción ProductoGenerico (tipo), no de implementaciones concretas.
-Refactor propuesto: No necesario.
 
 
-Ejemplo (antes → después)
+# Informe SOLID (L, I y D) --- Proyecto: Sistema de Inventario Genérico
 
-ts// Antes (viola I)
+## 2. Inventario de Clases/Interfaces Analizadas
+
+-   **Clase 1:** `src/models/Producto.ts` --- Representa un producto
+    genérico con operaciones de stock\
+-   **Clase 2:** `src/models/Inventario.ts` --- Gestiona la colección de
+    productos y movimientos\
+-   **Clase 3:** `src/models/Movimineto.ts` --- Representa un movimiento
+    individual del inventario\
+-   **Tipos:** `src/types/comunes.ts` --- Definiciones de tipos para el
+    dominio
+
+------------------------------------------------------------------------
+
+## 3. Análisis por Clase/Interfaz
+
+### 3.1 `src/models/Producto.ts`
+
+**Rol:** Gestión de datos y operaciones básicas de un producto en el
+inventario.
+
+#### L (Liskov Substitution)
+
+-   **Diagnóstico:** Si Cumple parcialmente\
+-   **Justificación:** La clase usa genéricos
+    (`Producto<T extends ProductoGenerico>`) lo que permite sustitución,
+    pero no hay jerarquía de herencia real que probar. Sin embargo,
+    cualquier tipo que extienda `ProductoGenerico` puede sustituir al
+    genérico base sin romper funcionalidad.
+-   **Refactor propuesto:** No necesario para LSP, pero se podría crear
+    una jerarquía con `ProductoBase` abstracta.
+
+#### I (Interface Segregation)
+
+-   **Diagnóstico:** No cumple completamente\
+-   **Justificación:** La clase mezcla operaciones de stock
+    (`aumentarStock`, `disminuirStock`) con presentación
+    (`mostrarInfo`). Si una clase solo necesita operaciones de stock,
+    debe implementar también la presentación.
+-   **Refactor propuesto:** Separar en interfaces `IStockable` e
+    `IDisplayable`.
+
+**Ejemplo (antes → después):**
+
+``` ts
+// Antes (viola I)
 class Producto<T extends ProductoGenerico> {
   aumentarStock(cantidad: number) { /* ... */ }
   disminuirStock(cantidad: number) { /* ... */ }
@@ -133,32 +149,52 @@ class ProductoFormatter<T extends ProductoGenerico> implements IDisplayable {
   constructor(private producto: Producto<T>) {}
   mostrarInfo(): string { /* lógica de presentación */ }
 }
+```
 
+#### D (Dependency Inversion)
 
-*3.2 src/models/Inventario.ts*
-Rol: Coordinador principal del sistema, gestiona productos, movimientos y reportes.
-L (Liskov Substitution)
+-   **Diagnóstico:** Si Cumple\
+-   **Justificación:** Depende de la abstracción `ProductoGenerico`
+    (tipo), no de implementaciones concretas.
+-   **Refactor propuesto:** No necesario.
 
-Diagnóstico: Cumple
-Justificación: Usa genéricos correctamente y cualquier tipo que extienda ProductoGenerico puede ser sustituido sin problemas.
-Refactor propuesto: No necesario.
+------------------------------------------------------------------------
 
-I (Interface Segregation)
+### 3.2 `src/models/Inventario.ts`
 
-Diagnóstico: No cumple
-Justificación: La clase tiene múltiples responsabilidades: gestión de productos, registro de movimientos Y generación de reportes. Una clase que solo necesite reportes debe cargar con toda la funcionalidad.
-Refactor propuesto: Dividir en interfaces más específicas: IProductManager, IMovementTracker, IReportGenerator.
+**Rol:** Coordinador principal del sistema, gestiona productos,
+movimientos y reportes.
 
-D (Dependency Inversion)
+#### L (Liskov Substitution)
 
-Diagnóstico: No cumple completamente
-Justificación: Depende directamente de clases concretas (Producto, Movimiento) en lugar de abstracciones. Instancia directamente new Movimiento().
-Refactor propuesto: Inyectar factories o builders para crear movimientos y productos.
+-   **Diagnóstico:** Si Cumple\
+-   **Justificación:** Usa genéricos correctamente y cualquier tipo que
+    extienda `ProductoGenerico` puede ser sustituido sin problemas.
+-   **Refactor propuesto:** No necesario.
 
+#### I (Interface Segregation)
 
-Ejemplo (antes → después)
+-   **Diagnóstico:** No cumple\
+-   **Justificación:** La clase tiene múltiples responsabilidades:
+    gestión de productos, registro de movimientos y generación de
+    reportes. Una clase que solo necesite reportes debe cargar con toda
+    la funcionalidad.
+-   **Refactor propuesto:** Dividir en interfaces más específicas:
+    `IProductManager`, `IMovementTracker`, `IReportGenerator`.
 
-ts// Antes (viola I y D)
+#### D (Dependency Inversion)
+
+-   **Diagnóstico:**  No cumple completamente\
+-   **Justificación:** Depende directamente de clases concretas
+    (`Producto`, `Movimiento`) en lugar de abstracciones. Instancia
+    directamente `new Movimiento()`.
+-   **Refactor propuesto:** Inyectar factories o builders para crear
+    movimientos y productos.
+
+**Ejemplo (antes → después):**
+
+``` ts
+// Antes (viola I y D)
 class Inventario<T extends ProductoGenerico> {
   private productos: Producto<T>[] = [];
   private movimientos: Movimiento<T>[] = [];
@@ -198,3 +234,6 @@ class Inventario<T extends ProductoGenerico> implements IProductManager<T>, IMov
     /* ... */
   }
 }
+```
+
+------------------------------------------------------------------------
