@@ -18,8 +18,7 @@ export class Inventario<T extends ProductoGenerico> {
       producto.aumentarStock(cantidad);
     } else {
       producto.disminuirStock(cantidad);
-    }
-
+    }   
     const movimiento = new Movimiento(tipo, producto, cantidad);
     this.movimientos.push(movimiento);
   }
@@ -30,5 +29,5 @@ export class Inventario<T extends ProductoGenerico> {
 
   reporteMovimientos() {
     return this.movimientos.map(m => m.detalleMovimiento());
-  }
+  } 
 }

@@ -12,4 +12,4 @@ export class Movimiento<T extends ProductoGenerico> {
   detalleMovimiento() {
     return `${this.tipo.toUpperCase()} | ${this.producto.datos.nombre} x${this.cantidad} | ${this.fecha.toLocaleString()}`;
   }
-}
+} 

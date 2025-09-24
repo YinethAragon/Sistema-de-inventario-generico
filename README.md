@@ -234,6 +234,75 @@ class Inventario<T extends ProductoGenerico> implements IProductManager<T>, IMov
     /* ... */
   }
 }
+
+```
+### 3.3 src/models/Movimineto.ts
+Rol: Representa un movimiento individual del inventario con sus detalles.
+#### L (Liskov Substitution)
+
+- **Diagnóstico:** Cumple
+- **Justificación:** No hay herencia, pero la clase es consistente y podría ser extendida sin problemas.
+Refactor propuesto: No necesario.
+
+#### I (Interface Segregation)
+
+- **Diagnóstico:** Cumple
+- **Justificación:** La clase tiene una responsabilidad única y bien definida. El método `detalleMovimiento()` es cohesivo con los datos del movimiento.
+Refactor propuesto: No necesario.
+
+#### D (Dependency Inversion)
+
+- **Diagnóstico:** No cumple completamente
+Justificación: Depende directamente de la clase concreta Producto en lugar de una abstracción.
+Refactor propuesto: Depender de una interfaz `IProducto` o `IMovable`.
+
+**Ejemplo (antes → después)**
+``` ts
+ts// Antes (viola D)
+class Movimiento<T extends ProductoGenerico> {
+  constructor(
+    public tipo: TipoMovimiento,
+    public producto: Producto<T>, // Dependencia concreta
+    public cantidad: number,
+    public fecha: Date = new Date()
+  ) {}
+}
+
+// Después (cumple D)
+interface IMovable<T> {
+  datos: T;
+}
+
+class Movimiento<T extends ProductoGenerico> {
+  constructor(
+    public tipo: TipoMovimiento,
+    public producto: IMovable<T>, // Dependencia abstracta
+    public cantidad: number,
+    public fecha: Date = new Date()
+  ) {}
+}
 ```
 
-------------------------------------------------------------------------
+## 4. Conclusiones Generales
+**Resumen de hallazgos:**
+**Clases que cumplen L, I, D completamente:** Ninguna cumple los tres principios al 100%.
+Casos de deuda técnica priorizada:
+
+**Interface Segregation:** Inventario tiene demasiadas responsabilidades (gestión + reportes)
+**Dependency Inversion:** Dependencias directas de clases concretas en lugar de abstracciones
+**Interface Segregation:** Producto mezcla lógica de negocio con presentación
+
+### Impacto de aplicar refactors:
+
+**Mantenibilidad:** Mayor facilidad para modificar reportes sin afectar gestión de inventario
+**Escalabilidad:** Posibilidad de agregar nuevos tipos de movimientos y productos sin modificar código existente
+**Pruebas:** Mejor testabilidad al poder mockear dependencias mediante interfaces
+**Reutilización:** Componentes más específicos y reutilizables
+
+#### Prioridad de refactoring:
+
+Alta: Separar reportes del Inventario (ISP)
+Media: Introducir abstracciones para Movimiento y Producto (DIP)
+Baja: Separar presentación de Producto (ISP)
+
+```
